@@ -1,0 +1,7 @@
+Flask
+flask_restplus
+WTForms
+coverage
+requests
+flask_swagger_ui
+geopy

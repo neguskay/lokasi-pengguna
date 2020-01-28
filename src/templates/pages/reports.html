@@ -1,0 +1,55 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Reports</h1>
+</div>
+<p class="lead">This Page Contains All Files Available to You.</p>
+
+{{reports_db_list}}
+
+lenth === == {{reports_db_list|length}}HELOO
+
+<div>
+ {{reports_db_list[0].id}} :id
+</div>
+<div>
+ {{reports_db_list[0].type}}
+</div>
+<div>
+  inventory listtst :: {{ reports_db_list[0].get_cleaned_data() }}
+</div>
+<div>
+   tidy:: {{ reports_db_list[0] }}
+    {{ url_for('reports.report_details', report_id=reports_db_list[0].id) }}
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#ID</th>
+      <th scope="col">Organization</th>
+      <th scope="col">Date Reported</th>
+      <th scope="col">Date Created</th>
+    </tr>
+  </thead>
+<tbody>
+  {% for report in reports_db_list %}
+  {% set report_dict = report.clean_data %}
+  {% if report_dict is not none %}
+
+  <tr>
+      <td ><a href="{{ url_for('reports.report_details', report_id=report.id) }}">{{ report.id }}</a></td>
+      <td> <a href="{{ url_for('reports.report_details', report_id=report.id) }}">{{ report.organization }}</a></td>
+      <td>{{ report.report_date }}</td>
+      <td>{{ report.created_date }}</td>
+      </a>
+  </tr>
+
+  {% endif %}
+
+<!--    </tr>-->
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

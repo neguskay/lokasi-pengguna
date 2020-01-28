@@ -1,0 +1,50 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Report{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>Organization: {{ report.organization }} </h1>
+</div>
+<p class="lead">This Page Contains All Details of report {{ report.organization }}.</p>
+
+<div class="card text-center">
+  <div class="card-body">
+    <h4 class="card-title" style="text-align: left;">Report Date : {{ report.report_date }}</h4>
+    <h4 class="card-text" style="text-align: left;">Created Date: {{ report.created_date }}</h4>
+    <br/>
+
+    <!-- Inventory Table -->
+    <h3 class="card-text">Inventory</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="text-center">Name</th>
+          <th scope="col" class="text-center">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inv in report.inventory %}
+        <tr>
+            <td >{{ inv.name }}</td>
+            <td>{{ inv.price }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+
+
+
+
+    <a class="btn btn-primary" href="{{ url_for('reports.generate', report_id=report.id, output_type='pdf') }}"> PDF Button</a>
+    <a class="btn btn-primary" href="{{ url_for('reports.generate', report_id=report.id, output_type='xml') }}"> XML Button</a>
+
+<!--    <form method="POST" action="{{ url_for('reports.generate', report_id=report.id, output_type='pdf') }}">-->
+<!--      <button type="submit" class="btn btn-primary">Generate PDF</button>-->
+<!--    </form>-->
+<!--    <form method="POST" action="{{ url_for('reports.generate', report_id=report.id, output_type='xml') }}">-->
+<!--      <button type="submit" class="btn btn-primary">Generate XML</button>-->
+<!--    </form>-->
+
+  </div>
+</div>
+{% endblock %}
