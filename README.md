@@ -29,8 +29,7 @@ This is a flask app with the following features:
 
 2. Initialize and activate a virtualenv:
   ```
-  $ virtualenv --no-site-packages env
-  $ source env/bin/activate
+  Can Use Either Conda or VeirtualEnv
   ```
 
 3. Install the dependencies:
@@ -40,7 +39,7 @@ This is a flask app with the following features:
 
 5. Run the development server:
   ```
-  $ python __init__.py
+  __init__.py in src
   ```
 
 6. Navigate to [http://localhost:5000](http://localhost:5000)
