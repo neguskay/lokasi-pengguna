@@ -3,3 +3,6 @@
 
 # Ignore IDE Files
 .idea
+
+__pycache__/
+*.py[cod]
