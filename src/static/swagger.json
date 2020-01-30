@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "description": "Sidney",
+    "description": "Retireve Users From External API",
     "version": "1.0.0",
     "title": "People API Documentation",
     "license": {
@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "/"
+      "url": "<host>/api/v1/people/<specified-path-from-list-below>?<some-parameters-where-necessary>"
     }
   ],
   "tags": [
@@ -21,215 +21,232 @@
     }
   ],
   "paths": {
-    "/request": {
+    "/people": {
       "get": {
         "tags": [
-          "Book Request"
+          "People Request"
         ],
-        "summary": "Returns bookRequests",
+        "summary": "Get All User Objects.",
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequests"
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Book Request"
-        ],
-        "summary": "Create a new book request system",
-        "requestBody": {
-          "description": "Book Request Post Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/bookRequestPostBody"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/peopleResponseListOfPeople"
+                }
               }
             }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "201": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/id"
-            }
-          },
-          "400": {
-            "description": "Failed. Bad post data."
           }
         }
       }
     },
-    "/request/{id}": {
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "ID of the cat that we want to match",
-          "type": "string"
-        }
-      ],
+    "/people/by-id": {
       "get": {
         "tags": [
-          "Book Request"
+          "People Request"
         ],
-        "summary": "Get book request with given ID",
+        "summary": "Get User Object With Given ID.",
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
+            "name": "peopleRequestByIdGetBody",
             "required": true,
-            "description": "Book Request id",
+            "description": "ID of the user we hope to retrieve",
+            "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/id"
+              "$ref": "#/components/schemas/peopleRequestByIdGetBody"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequest"
-            }
-          },
-          "400": {
-            "description": "Failed. Misunderstood Request."
-          },
-          "404": {
-            "description": "Failed. Book request not found."
-          }
-        }
-      },
-      "put": {
-        "summary": "edit a book request by ID",
-        "tags": [
-          "Book Request"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Book Request id",
-            "schema": {
-              "$ref": "#/components/schemas/id"
-            }
-          }
-        ],
-        "requestBody": {
-          "description": "Book Request Object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/bookRequest"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/peopleResponseOnePerson"
+                }
               }
             }
+          },
+          "400": {
+            "description": "Failed. Bad Request."
+          },
+          "404": {
+            "description": "Failed. Resource not found."
           }
-        },
-        "produces": [
-          "application/json"
+        }
+      }
+    },
+    "/people/by-city": {
+      "get": {
+        "tags": [
+          "People Request"
+        ],
+        "summary": "Get User Object(s) With Given City.",
+        "parameters": [
+          {
+            "name": "peopleRequestByCityGetBody",
+            "required": false,
+            "description": "City whose user(s) we hope to retrieve. Defaults to 'London'.",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/peopleRequestByCityGetBody"
+            }
+          }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/bookRequest"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/peopleResponseListOfPeople"
+                }
+              }
             }
           },
           "400": {
-            "description": "Failed. Bad post data."
+            "description": "Failed. Bad Request."
+          },
+          "404": {
+            "description": "Failed. Resource not found."
           }
         }
-      },
-      "delete": {
-        "summary": "Delete Book Request by ID",
+      }
+    },
+    "/people/by-city-miles": {
+      "get": {
         "tags": [
-          "Book Request"
+          "People Request"
         ],
+        "summary": "Get User Object(s) Within Mileage Range of Given City.",
         "parameters": [
           {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "description": "Book Request Id",
+            "name": "peopleRequestByCityWithinMilesGetBody",
+            "required": false,
+            "description": "People Request City Within Miles",
+            "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/id"
+              "$ref": "#/components/schemas/peopleRequestByCityWithinMilesGetBody"
             }
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/components/schemas/id"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/peopleResponseListOfPeople"
+                }
+              }
             }
           },
           "400": {
-            "description": "Failed. Misunderstood Request."
+            "description": "Failed. Bad Request."
           },
           "404": {
-            "description": "Failed. Book Request not found."
+            "description": "Failed. Resource not found."
           }
         }
       }
     }
   },
   "components": {
-    "schemas": {
-      "id": {
-        "properties": {
-          "uuid": {
-            "type": "string"
-          }
-        }
-      },
-      "bookRequestPostBody": {
+    "schemas":{
+      "peopleRequestByIdGetBody": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          }
-        }
-      },
-      "bookRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string",
-            "format": "string"
-          },
-          "email": {
-            "type": "string",
-            "format": "email"
-          },
-          "timestamp": {
+          "id": {
             "type": "string",
             "format": "number"
           }
         }
       },
-      "bookRequests": {
+      "peopleRequestByCityGetBody": {
         "type": "object",
         "properties": {
-          "bookRequest": {
+          "city": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "peopleRequestByCityWithinMilesGetBody": {
+        "type": "object",
+        "properties": {
+            "miles": {
+              "type": "string",
+              "format": "number"
+            },
+            "longitude": {
+              "type": "string",
+              "format": "number"
+            },
+            "latitude": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+      },
+      "peopleResponseOnePerson": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "format": "string"
+          },
+          "data": {
             "type": "object",
-            "additionalProperties": {
-              "$ref": "#/components/schemas/bookRequest"
+            "properties" : {
+              "id": {
+                "type": "integer",
+                "format": "number",
+                "example": 1
+              },
+              "first_name": {
+                "type": "string",
+                "format": "string",
+                "example": "John"
+              },
+              "last_name": {
+                "type": "string",
+                "format": "string",
+                "example": "Apple"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "ip_address": {
+                "type": "string",
+                "format": "number",
+                "example": "219.245.140.98"
+              },
+              "latitude": {
+                "type": "number",
+                "example": 0.000
+              },
+              "longitude": {
+                "type": "number",
+                "example": 0.000
+              }
+            }
+          }
+        }
+      },
+      "peopleResponseListOfPeople": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "format": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/peopleResponseOnePerson"
             }
           }
         }
